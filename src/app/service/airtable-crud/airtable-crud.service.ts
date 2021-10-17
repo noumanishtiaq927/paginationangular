@@ -11,7 +11,7 @@ export class AirtableCrudService {
   url = 'https://api.airtable.com/v0/appvfLsBbjJWhCMT1/ListofUsers';
   rolelist = 'https://api.airtable.com/v0/appvfLsBbjJWhCMT1/Roles';
   carerlist = 'https://api.airtable.com/v0/appvfLsBbjJWhCMT1/carerTable';
-  token = 'Bearer keyvzdpbj8l3WeU1E';
+  token = 'Bearer ';
   rolelistdata: any | undefined;
   carerlistdata: any | undefined;
   responseofpost: any | undefined;
