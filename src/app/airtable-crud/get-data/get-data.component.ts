@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { NgForm, NgModel } from '@angular/forms';
+import { AirtableCrudService } from 'src/app/service/airtable-crud/airtable-crud.service';
+
+@Component({
+  selector: 'app-get-data',
+  templateUrl: './get-data.component.html',
+  styleUrls: ['./get-data.component.css'],
+})
+export class GetDataComponent implements OnInit {
+  AirTableData: any = [];
+  AirTableDataa: any = [];
+  newdata: any;
+  tableSize: any = 5;
+  pageNumber: any = 3;
+  curPage: number = 1;
+  pageSize: number = 10;
+  searchValue: string = '';
+
+  /** Gets the total cost of all transactions. */
+  // getTotalCost() {
+  //   return this.transactions
+  //     .map((t) => t.cost)
+  //     .reduce((acc, value) => acc + value, 0);
+  // }
+  constructor(private airtableCrud: AirtableCrudService) {}
+
+  ngOnInit(): void {
+    this.airtableCrud.getDataAirtable().subscribe((data) => {
+      this.AirTableData = data.records;
+    });
+  }
+  numberOfPages() {
+    return Math.ceil(this.AirTableData.length / this.pageSize);
+  }
+  newPageNumber(x: NgModel) {
+    console.log(x.value);
+    this.pageNumber = x.value;
+    console.log(this.pageNumber + 'pageNumber');
+  }
+}

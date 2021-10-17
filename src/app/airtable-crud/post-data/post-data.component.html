@@ -1,0 +1,163 @@
+<div class="container m-5">
+  <form (ngSubmit)="onSubmit()" #f="ngForm">
+    <div class="mb-3">
+      <label for="Name" class="form-label">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="Name"
+        aria-describedby="Name"
+        ngModel
+        name="Name"
+        required
+        #name="ngModel"
+      />
+      <div *ngIf="name.invalid && name.touched" class="help-block text-danger">
+        Input your Name
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="Password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="Password"
+        ngModel
+        required
+        name="Password"
+        #password="ngModel"
+      />
+      <div
+        *ngIf="password.invalid && password.touched"
+        class="help-block text-danger"
+      >
+        Input Valid Password
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="Passcode" class="form-label">Passcode</label>
+      <input
+        type="number"
+        class="form-control"
+        id="Passcode"
+        ngModel
+        name="Passcode"
+        required
+        min="0000"
+        max="9999"
+        #passcode="ngModel"
+      />
+      <div
+        *ngIf="passcode.invalid && passcode.touched"
+        class="help-block text-danger"
+      >
+        Input Valid PassCode
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="UserRoleId" class="form-label">UserRoleId</label>
+      <select
+        class="form-select mb-3"
+        aria-label=".form-select-lg example"
+        id="UserRoleId"
+        ngModel
+        name="UserRoleId"
+        required
+        #userroleid="ngModel"
+      >
+        <option value=""></option>
+        <option *ngIf="roleList.length === 0; else rolesList">
+          Loading ...
+        </option>
+        <ng-template #rolesList>
+          <option *ngFor="let rl of roleList" value="{{ rl.id }}">
+            {{ rl.fields.Roles }}
+          </option>
+        </ng-template>
+      </select>
+      <div
+        *ngIf="userroleid.invalid && userroleid.touched"
+        class="help-block text-danger"
+      >
+        Input Valid UserRoleId
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="FCarerId" class="form-label">FCarerId</label>
+      <select
+        class="form-select mb-3"
+        aria-label=".form-select-lg example"
+        id="FCarerId"
+        ngModel
+        name="FCarerList"
+        required
+        #fcarerid="ngModel"
+        [disabled]="userroleid.value === 'reczhzFpGVIFxnMUJ'"
+      >
+        <option value=""></option>
+        <option *ngIf="FcareList.length === 0; else carerList">
+          Loading ...
+        </option>
+        <ng-template #carerList>
+          <option *ngFor="let cl of FcareList" value="{{ cl.id }}">
+            {{ cl.fields.CarerName }}
+          </option>
+        </ng-template>
+      </select>
+      <div
+        *ngIf="fcarerid.invalid && fcarerid.touched"
+        class="help-block text-danger"
+      >
+        Input Valid FcarerName
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="OneTimePasswordFlag" class="form-label"
+        >One Time Password Flag</label
+      >
+      <select
+        class="form-select mb-3"
+        aria-label=".form-select-lg example"
+        id="OneTimePasswordFlag"
+        ngModel
+        name="OneTimePasswordFlag"
+        required
+        #passflag="ngModel"
+      >
+        <option value="yes">yes</option>
+        <option value="No">No</option>
+      </select>
+      <div
+        *ngIf="passflag.invalid && passflag.touched"
+        class="help-block text-danger"
+      >
+        Input Valid PassFlag
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="Status" class="form-label">Status</label>
+      <select
+        class="form-select mb-3"
+        aria-label=".form-select-lg example"
+        id="Status"
+        ngModel
+        name="Status"
+        required
+        #status="ngModel"
+      >
+        <option value="Active">Active</option>
+        <option value="NotActive">NotActive</option>
+      </select>
+      <div
+        *ngIf="status.invalid && status.touched"
+        class="help-block text-danger"
+      >
+        Input Valid Password
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">
+      Submit
+    </button>
+  </form>
+</div>
