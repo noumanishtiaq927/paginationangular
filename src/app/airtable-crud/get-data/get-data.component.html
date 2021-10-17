@@ -1,166 +1,180 @@
-<div class="container m-5">
-  <br />
-  <div class="form-group">
-    <label for="search">Search</label>
-    <input
-      type="text"
-      class="form-control"
-      id="search"
-      [(ngModel)]="searchValue"
-    />
+<div class="row">
+  <div class="col-md-6">
+    <div class="container">
+      <br />
+      <div class="form-group">
+        <label for="search">Search</label>
+        <input
+          type="text"
+          class="form-control"
+          id="search"
+          [(ngModel)]="searchValue"
+        />
+      </div>
+      <br />
+      <table class="table table-info table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>UserId</th>
+            <th>userRoleId</th>
+            <th>userRole</th>
+            <th>FcarerId</th>
+            <th>CarerEmail</th>
+            <th>Password</th>
+            <th>PassCode</th>
+            <th>Status</th>
+            <th>OneTimePasswordFlag</th>
+            <th>createdBy</th>
+            <th>createdTime</th>
+            <th>modifiedBy</th>
+            <th>Last Modified Time</th>
+            <th><button class="btn btn-success">Actions</button></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let tdf of AirTableData
+                | slice: start:end
+                | searchfilter: searchValue;
+              let i = &quot;index + 1&quot;
+            "
+          >
+            <td>{{ i }}</td>
+            <td>{{ tdf?.id }}</td>
+            <td>{{ tdf?.fields.Name }}</td>
+            <td>{{ tdf?.fields.userId }}</td>
+            <td>
+              <span
+                *ngFor="let any of tdf.fields.userRoleId"
+                class="badge bg-danger"
+              >
+                {{ any }}
+              </span>
+            </td>
+            <td>{{ tdf?.fields.userRole }}</td>
+            <td>
+              <span
+                *ngFor="let any of tdf.fields.FcarerId"
+                class="badge bg-danger"
+              >
+                {{ any }}
+              </span>
+            </td>
+            <td>
+              <span
+                *ngFor="let any of tdf.fields.CarerEmail"
+                class="badge bg-info"
+              >
+                {{ any }}
+              </span>
+            </td>
+            <td>{{ tdf?.fields.Password }}</td>
+            <td>{{ tdf?.fields.PassCode }}</td>
+            <td>{{ tdf?.fields.Status }}</td>
+            <td>{{ tdf?.fields.OneTimePasswordFlag }}</td>
+            <td>
+              <p
+                class="badge bg-danger"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="ID"
+              >
+                <span>ID:</span>{{ tdf?.fields.createdBy.id }}
+              </p>
+              <p
+                class="badge bg-primary"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="Name"
+              >
+                <strong>Name:</strong>{{ tdf?.fields.createdBy.name }}
+              </p>
+              <p
+                class="badge bg-info"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="Email"
+              >
+                <span>Email:</span> {{ tdf?.fields.createdBy.email }}
+              </p>
+            </td>
+            <td>{{ tdf?.fields.createdTime | date }}</td>
+
+            <td>
+              <p
+                class="badge bg-danger"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="ID"
+              >
+                <span>ID:</span>{{ tdf?.fields.modifiedBy.id }}
+              </p>
+              <p
+                class="badge bg-primary"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="Name"
+              >
+                <span>Name:</span>{{ tdf?.fields.modifiedBy.name }}
+              </p>
+              <p
+                class="badge bg-info"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="Email"
+              >
+                <span>Email:</span> {{ tdf?.fields.modifiedBy.email }}
+              </p>
+            </td>
+            <td>{{ tdf?.fields.LastModifiedTime | date }}</td>
+            <td>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic outlined example"
+              >
+                <button type="button" class="btn btn-outline-info">Edit</button>
+
+                <button type="button" class="btn btn-outline-danger">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br />
+
+      <p class="pagination">
+        <button
+          [disabled]="curPage == 1"
+          (click)="curPage = curPage - 1"
+          class="btn btn-primary"
+        >
+          PREV
+        </button>
+        <input
+          type="number"
+          [max]="numberOfPages()"
+          min="1"
+          [(ngModel)]="pageNumber"
+          value="pageNumber"
+          #p="ngModel"
+          (change)="newPageNumber(p)"
+        />
+        <button
+          class="btn btn-info"
+          [disabled]="curPage >= AirTableData.length / pageSize"
+          (click)="curPage = curPage + 1"
+        >
+          NEXT
+        </button>
+      </p>
+    </div>
   </div>
-  <br />
-  <table class="table table-info table-hover table-bordered">
-    <thead>
-      <tr>
-        <th>Sr. No.</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>UserId</th>
-        <th>userRoleId</th>
-        <th>userRole</th>
-        <th>FcarerId</th>
-        <th>CarerEmail</th>
-        <th>Password</th>
-        <th>PassCode</th>
-        <th>Status</th>
-        <th>OneTimePasswordFlag</th>
-        <th>createdBy</th>
-        <th>createdTime</th>
-        <th>modifiedBy</th>
-        <th>Last Modified Time</th>
-        <th><button class="btn btn-success">Actions</button></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let tdf of AirTableData | searchfilter: searchValue;
-          let i = &quot;index + 1&quot;
-        "
-      >
-        <td>{{ i }}</td>
-        <td>{{ tdf?.id }}</td>
-        <td>{{ tdf?.fields.Name }}</td>
-        <td>{{ tdf?.fields.userId }}</td>
-        <td>
-          <span
-            *ngFor="let any of tdf.fields.userRoleId"
-            class="badge bg-danger"
-          >
-            {{ any }}
-          </span>
-        </td>
-        <td>{{ tdf?.fields.userRole }}</td>
-        <td>
-          <span *ngFor="let any of tdf.fields.FcarerId" class="badge bg-danger">
-            {{ any }}
-          </span>
-        </td>
-        <td>
-          <span *ngFor="let any of tdf.fields.CarerEmail" class="badge bg-info">
-            {{ any }}
-          </span>
-        </td>
-        <td>{{ tdf?.fields.Password }}</td>
-        <td>{{ tdf?.fields.PassCode }}</td>
-        <td>{{ tdf?.fields.Status }}</td>
-        <td>{{ tdf?.fields.OneTimePasswordFlag }}</td>
-        <td>
-          <p
-            class="badge bg-danger"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="ID"
-          >
-            <span>ID:</span>{{ tdf?.fields.createdBy.id }}
-          </p>
-          <p
-            class="badge bg-primary"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="Name"
-          >
-            <strong>Name:</strong>{{ tdf?.fields.createdBy.name }}
-          </p>
-          <p
-            class="badge bg-info"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="Email"
-          >
-            <span>Email:</span> {{ tdf?.fields.createdBy.email }}
-          </p>
-        </td>
-        <td>{{ tdf?.fields.createdTime | date }}</td>
-
-        <td>
-          <p
-            class="badge bg-danger"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="ID"
-          >
-            <span>ID:</span>{{ tdf?.fields.modifiedBy.id }}
-          </p>
-          <p
-            class="badge bg-primary"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="Name"
-          >
-            <span>Name:</span>{{ tdf?.fields.modifiedBy.name }}
-          </p>
-          <p
-            class="badge bg-info"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            title="Email"
-          >
-            <span>Email:</span> {{ tdf?.fields.modifiedBy.email }}
-          </p>
-        </td>
-        <td>{{ tdf?.fields.LastModifiedTime | date }}</td>
-        <td>
-          <div
-            class="btn-group"
-            role="group"
-            aria-label="Basic outlined example"
-          >
-            <button type="button" class="btn btn-outline-info">Edit</button>
-
-            <button type="button" class="btn btn-outline-danger">Delete</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br />
-
-  <p class="pagination">
-    <button
-      [disabled]="curPage == 1"
-      (click)="curPage = curPage - 1"
-      class="btn btn-primary"
-    >
-      PREV
-    </button>
-    <input
-      type="number"
-      [max]="numberOfPages()"
-      min="1"
-      [(ngModel)]="pageNumber"
-      value="pageNumber"
-      #p="ngModel"
-      (change)="newPageNumber(p)"
-    />
-    <button
-      class="btn btn-info"
-      [disabled]="curPage >= AirTableData.length / pageSize"
-      (click)="curPage = curPage + 1"
-    >
-      NEXT
-    </button>
-  </p>
 </div>

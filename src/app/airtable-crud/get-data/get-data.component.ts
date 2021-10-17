@@ -12,10 +12,12 @@ export class GetDataComponent implements OnInit {
   AirTableDataa: any = [];
   newdata: any;
   tableSize: any = 5;
-  pageNumber: any = 3;
+  pageNumber: any = 1;
   curPage: number = 1;
   pageSize: number = 10;
   searchValue: string = '';
+  start: any;
+  end: any;
 
   /** Gets the total cost of all transactions. */
   // getTotalCost() {
@@ -23,7 +25,10 @@ export class GetDataComponent implements OnInit {
   //     .map((t) => t.cost)
   //     .reduce((acc, value) => acc + value, 0);
   // }
-  constructor(private airtableCrud: AirtableCrudService) {}
+  constructor(private airtableCrud: AirtableCrudService) {
+    this.start = this.pageSize * (this.pageNumber - 1);
+    this.end = this.pageNumber * this.pageSize;
+  }
 
   ngOnInit(): void {
     this.airtableCrud.getDataAirtable().subscribe((data) => {
@@ -36,6 +41,9 @@ export class GetDataComponent implements OnInit {
   newPageNumber(x: NgModel) {
     console.log(x.value);
     this.pageNumber = x.value;
+    this.start = (this.pageNumber - 1) * this.pageSize;
+    this.end = this.pageNumber * this.pageSize;
+    console.log('start' + this.start + 'end' + this.end);
     console.log(this.pageNumber + 'pageNumber');
   }
 }
