@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { AirtableCrudService } from 'src/app/service/airtable-crud/airtable-crud.service';
 
@@ -35,6 +41,7 @@ export class GetDataComponent implements OnInit {
       this.AirTableData = data.records;
     });
   }
+
   numberOfPages() {
     return Math.ceil(this.AirTableData.length / this.pageSize);
   }
@@ -45,5 +52,30 @@ export class GetDataComponent implements OnInit {
     this.end = this.pageNumber * this.pageSize;
     console.log('start' + this.start + 'end' + this.end);
     console.log(this.pageNumber + 'pageNumber');
+  }
+  sortsr() {
+    return this.AirTableData.sort((a: any, b: any) =>
+      a.fields.userId > b.fields.userId ? 1 : -1
+    );
+  }
+  anothersort() {
+    return this.AirTableData.sort((a: any, b: any) =>
+      a.fields.PassCode > b.fields.PassCode ? 1 : -1
+    );
+  }
+
+  sortstring() {
+    this.AirTableData.sort((a: any, b: any) => {
+      let fa = a.id.toLowerCase(),
+        fb = b.id.toLowerCase();
+
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
   }
 }
